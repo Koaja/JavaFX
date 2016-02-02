@@ -75,11 +75,12 @@ public class FXMLDocumentController implements Initializable {
 
                 //add book to collection
                 book = new Book(bookName, bookTitle, bookGenre);
-                model.addBook(book);
+                booksCollection.add(book);
 
                 // notify user book was added successfully
                 lblAddMessage.setText(book.toString() + " added to libray");
-                // txtBooksDisplay.appendText(book.toString() + "\n");
+                txtBooksDisplay.appendText(book.toString() + "\n");
+
                 // clears the fields after adding a book
                 txtBookName.setText("");
                 txtBookTitle.setText("");
@@ -94,7 +95,7 @@ public class FXMLDocumentController implements Initializable {
 
             // show available books 
         } else if (e.getSource() == menuItemList) {
-            booksCollection.addAll(model.listLibrary());
+
             for (Book b : booksCollection) {
                 txtBooksDisplay.appendText(b.toString() + "\n");
             }
@@ -105,7 +106,9 @@ public class FXMLDocumentController implements Initializable {
 
             // clears the search text box
         } else if (e.getSource() == btnClearSearch) {
-            txtSearch.setText("");
+            if (txtSearch.getText() != null) {
+                txtSearch.clear();
+            }
             txtSearch.requestFocus(); // sets focus back to search box
 
             // imports any existing books
