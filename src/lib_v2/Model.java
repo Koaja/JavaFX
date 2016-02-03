@@ -24,9 +24,13 @@ public class Model {
         return booksCollections.size();
     }
 
-    public ArrayList<Book> listLibrary() {
+    public Book listLibrary() {
 
-        return booksCollections;
+        Book book = null;
+        for (Book b : booksCollections) {
+            book = b;
+        }
+        return book;
     }
 
     public void searchLibrary(String searchString) {
