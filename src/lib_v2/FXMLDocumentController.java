@@ -55,7 +55,7 @@ public class FXMLDocumentController implements Initializable {
     private TextArea txtSearchDisplay;
 
     @FXML
-    private TextField txtBookName;
+    private TextField txtBookAuthor;
     @FXML
     private TextField txtBookTitle;
     @FXML
@@ -74,7 +74,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
-        String bookName = txtBookName.getText();
+        String bookName = txtBookAuthor.getText();
         String bookTitle = txtBookTitle.getText();
         String bookGenre = txtBookGenre.getText();
         String emptyFields = "Fields cannot be empty";
@@ -111,33 +111,41 @@ public class FXMLDocumentController implements Initializable {
                 txtBooksDisplay.appendText(book.toString() + "\n");
 
                 // clears the fields after adding a book
-                txtBookName.setText("");
+                txtBookAuthor.setText("");
                 txtBookTitle.setText("");
                 txtBookGenre.setText("");
-                txtBookName.requestFocus();
+                txtBookAuthor.requestFocus();
             }
 
             // delete book
         } else if (e.getSource() == btnDeleteBook) {
+            // TO DO
 
             // search book
         } else if (e.getSource() == btnSearchBook) {
+            txtSearchDisplay.clear(); // clears the text area to display new results
             String search = txtSearch.getText();
             if (search.length() >= 3) {
                 for (Book b : booksCollection) {
                     if (b.toString().toLowerCase().contains(search)) {
-                        txtSearchDisplay.appendText(b.toString() + "");
+                        txtSearchDisplay.appendText(b.toString() + "\n");
+                        lblAddMessage.setText("We found something that you might've searched for ");
+                    } else {
+                        lblAddMessage.setText("Book wasn't found");
                     }
                 }
 
             } else if (search.length() == 0) {
                 lblAddMessage.setText("You will have to type something in the 'Search' field");
-            } else {
+            } else if (search.length() >= 0 && search.length() < 3) {
                 lblAddMessage.setText("For a more precise result please enter a word with a length bigger than 3 letters");
             }
+            txtSearch.clear(); // clears search  field
+            txtSearch.requestFocus(); // sets focus to search field 
+
             // show available books 
         } else if (e.getSource() == menuItemList) {
-            txtBooksDisplay.clear();
+            txtBooksDisplay.clear(); // clears the text area to display the updated list
             if (booksCollection.size() == 0) {
                 txtBooksDisplay.setText("No books");
             } else {
@@ -146,25 +154,21 @@ public class FXMLDocumentController implements Initializable {
                     txtBooksDisplay.appendText(b.toString() + "\n");
                 }
             }
+
             // quits program
-        } else if (e.getSource()
-                == menuItemExit) {
+        } else if (e.getSource() == menuItemExit) {
             Platform.exit();
 
             // clears the search text box
-        } else if (e.getSource()
-                == btnClearSearch) {
+        } else if (e.getSource() == btnClearSearch) {
             if (txtSearch.getText() != null) {
                 txtSearch.clear();
             }
             txtSearch.requestFocus(); // sets focus back to search box
 
             // imports any existing books
-        } else if (e.getSource()
-                == menuItemImport) {
+        } else if (e.getSource() == menuItemImport) {
             model.importLibrary(System.getProperty("home.dir") + "//Desktop//books.txt");
-
-            // search feature
         }
 
     }

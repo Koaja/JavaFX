@@ -16,12 +16,14 @@ import javafx.stage.Stage;
  * @author Balea Cristian
  */
 public class Lib_v2 extends Application {
-
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-
+        
         Scene scene = new Scene(root);
+        stage.setTitle("Ratusca's Totally Awesome Library");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
@@ -32,5 +34,5 @@ public class Lib_v2 extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
 }
