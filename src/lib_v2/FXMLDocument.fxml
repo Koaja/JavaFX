@@ -22,7 +22,7 @@
                   <TextField fx:id="txtBookTitle" layoutX="5.0" layoutY="72.0" prefWidth="150.0" />
                   <TextField fx:id="txtBookGenre" layoutX="5.0" layoutY="115.0" prefWidth="150.0" />
                   <Button fx:id="btnAddBook" layoutX="5.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="75.0" text="Add Book" AnchorPane.leftAnchor="5.0" />
-                  <Label fx:id="lblAddMessage" alignment="CENTER" layoutX="5.0" layoutY="190.0" maxWidth="500.0" prefHeight="21.0" prefWidth="295.0" style="-fx-border-color: #000; -fx-padding: 1px;" text="Message displayed here" textOverrun="CENTER_ELLIPSIS">
+                  <Label fx:id="lblAddMessage" alignment="CENTER" layoutX="5.0" layoutY="190.0" maxWidth="500.0" prefHeight="21.0" prefWidth="295.0" style="-fx-border-color: #000; -fx-padding: 1px;" textOverrun="CENTER_ELLIPSIS">
                      <tooltip>
                         <Tooltip fx:id="tooltipInfo" wrapText="true">
                            <font>
