@@ -28,6 +28,7 @@ public class Model {
     private Book book;
     private Stage stage;
     private String stageTitle = "Ratusca's Totally Awesome Books Library";
+    private int nrOfBooksFromFile = 0;
 
     public void addBook(Book b) {
         booksCollection.add(b);
@@ -67,28 +68,8 @@ public class Model {
     }
 
     public int getNumberOfBooksFromFile() {
-        int nrOfBooks = 0;
-        try {
-            readBooksFromFile = new BufferedReader(new InputStreamReader(new FileInputStream(booksFile)));
 
-            @SuppressWarnings("UnusedAssignment")
-            String line = "";
-
-            while ((line = readBooksFromFile.readLine()) != null) {
-                String[] s = line.split(" - ");
-                String bookAuthor = s[0];
-                String bookTitle = s[1];
-                String bookGenre = s[2];
-                book = new Book(bookAuthor, bookTitle, bookGenre);
-                addBook(book);
-                nrOfBooks++;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return nrOfBooks;
-
+        return nrOfBooksFromFile;
     }
 
     public boolean isTextFieldEmpty(TextField txtField) {
@@ -134,6 +115,8 @@ public class Model {
     // imports any existing library
     @SuppressWarnings("CallToPrintStackTrace")
     public void importLibrary(String fileLocation, Label lblInfo) {
+
+        //
         booksCollection.clear();
         // location of file to be imported
         booksFile = new File(fileLocation);
@@ -162,6 +145,7 @@ public class Model {
                 String bookGenre = s[2];
                 book = new Book(bookAuthor, bookTitle, bookGenre);
                 addBook(book);
+                nrOfBooksFromFile++;
             }
 
         } catch (IOException e) {

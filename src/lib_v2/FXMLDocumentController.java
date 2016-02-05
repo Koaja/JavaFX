@@ -101,9 +101,13 @@ public class FXMLDocumentController implements Initializable {
 
             // imports an existing library
         } else if (e.getSource() == menuItemImport) {
-            model.importLibrary(homeDir + "//Desktop//books.txt", lblInfo);
+            //   model.importLibrary(homeDir + "//Desktop//books.txt", lblInfo);
+
+            // export library
         } else if (e.getSource() == menuItemExport) {
             model.exportLibrary();
+            
+            // about
         } else if (e.getSource() == menuItemAbout) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("About");
@@ -131,7 +135,7 @@ public class FXMLDocumentController implements Initializable {
         btnAddBook.setDefaultButton(true); // add button is default button and user can submit a book with Enter keyboard button
 
         tooltipInfo.textProperty().bind(lblInfo.textProperty()); // adds tooltip to info label 
-
+        model.importLibrary(homeDir + "//Desktop//books.txt", lblInfo);
     }
 
 }
