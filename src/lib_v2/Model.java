@@ -3,18 +3,20 @@ package lib_v2;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Comparator;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class Model {
 
@@ -24,12 +26,15 @@ public class Model {
     private PrintStream writeBooksToFile;
     private File booksFile;
     private Book book;
+    private Stage stage;
+    private String stageTitle = "Ratusca's Totally Awesome Books Library";
 
     public void addBook(Book b) {
         booksCollection.add(b);
 
     }
 
+    // add book method
     @SuppressWarnings("Convert2Lambda")
     public void addBook(Book b, TextField txtBookAuthor, TextField txtBookTitle, TextField txtBookGenre, Label lblAddMessage, String emptyFields, TextArea txtBooksDisplay) {
         String bookName = txtBookAuthor.getText();
@@ -43,15 +48,16 @@ public class Model {
 
             //add book to collection
             book = new Book(bookName, bookTitle, bookGenre);
-            booksCollection.addListener(new ListChangeListener<Book>() {
-                @Override
-                public void onChanged(ListChangeListener.Change<? extends Book> c) {
-                    lblAddMessage.setTextFill(Color.BLACK);
-                    if (c.next() == c.wasAdded()) {
-                        lblAddMessage.setText(book.toString() + " added to libray");
-                    }
-                }
-            });
+            lblAddMessage.setText(book.toString() + " added to libray");
+//            booksCollection.addListener(new ListChangeListener<Book>() {
+//                @Override
+//                public void onChanged(ListChangeListener.Change<? extends Book> c) {
+//                    lblAddMessage.setTextFill(Color.BLACK);
+//                    if (c.next() == c.wasAdded()) {
+//                        lblAddMessage.setText(book.toString() + " added to libray");
+//                    }
+//                }
+//            });
 
             booksCollection.add(book);
 
@@ -67,8 +73,33 @@ public class Model {
         return label.getText();
     }
 
-    public int NumberOfBooks() {
+    public int getNumberOfBooks() {
         return booksCollection.size();
+    }
+
+    public int getNumberOfBooksFromFile() {
+        int nrOfBooks = 0;
+        try {
+            readBooksFromFile = new BufferedReader(new InputStreamReader(new FileInputStream(booksFile)));
+
+            @SuppressWarnings("UnusedAssignment")
+            String line = "";
+
+            while ((line = readBooksFromFile.readLine()) != null) {
+                String[] s = line.split(" - ");
+                String bookAuthor = s[0];
+                String bookTitle = s[1];
+                String bookGenre = s[2];
+                book = new Book(bookAuthor, bookTitle, bookGenre);
+                addBook(book);
+                nrOfBooks++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return nrOfBooks;
+
     }
 
     public boolean isTextFieldEmpty(TextField txtField) {
@@ -111,19 +142,24 @@ public class Model {
         txtSearch.requestFocus(); // sets focus to search field 
     }
 
+    // imports any existing library
     @SuppressWarnings("CallToPrintStackTrace")
-    public void importLibrary(String fileLocation) {
-        booksFile = new File(fileLocation);
+    public void importLibrary(String fileLocation, Label lblInfo) {
 
+        // location of file to be imported
+        booksFile = new File(fileLocation);
+        boolean filePresent = true;
+        // create a file if one doesnt exist
         if (!booksFile.exists()) {
+            filePresent = false;
             try {
-                System.out.println("\nNo local library was found, so we will create one for you instead.\n");
                 booksFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+        // reads file data and stores it in list
         try {
             readBooksFromFile = new BufferedReader(new InputStreamReader(new FileInputStream(booksFile)));
 
@@ -142,8 +178,15 @@ public class Model {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (filePresent == true) {
+            lblInfo.setText("A number of " + getNumberOfBooksFromFile() + " books have been added to your library.");
+        } else {
+            lblInfo.setText("No local library was found, so we will create one for you instead. You can find it on your Desktop with name books.txt");
+        }
+
     }
 
+    // sort library alphabetically
     @SuppressWarnings("Convert2Lambda")
     public void sortLibrary() {
         Collections.sort(booksCollection, new Comparator<Book>() {
@@ -154,6 +197,7 @@ public class Model {
         });
     }
 
+    // export context of list to file
     @SuppressWarnings("CallToPrintStackTrace")
     public void exportLibrary() {
         booksFile.delete();
@@ -166,5 +210,38 @@ public class Model {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // checks if number of books in file equals number of books in list
+    public boolean isLibraryUpToDate() {
+
+        int amountOfBooksInCollection = getNumberOfBooks();
+        int amountOfBooksInFile = 0;
+        try {
+            readBooksFromFile = new BufferedReader(new InputStreamReader(new FileInputStream(booksFile)));
+            while (readBooksFromFile.readLine() != null) {
+                amountOfBooksInFile++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return amountOfBooksInCollection == amountOfBooksInFile;
+    }
+
+    // prompt if isLibraryUpToDate() == false
+    public void exitLibrary() {
+
+        if (isLibraryUpToDate()) {
+            Platform.exit();
+        } else {
+            System.out.println("Your Library is not up-to-date. Would you like to update it now ?[yes/no]");
+        }
+    }
+
+    public String getStageTitle() {
+        return stageTitle;
     }
 }

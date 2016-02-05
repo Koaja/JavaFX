@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lib_v2;
 
-/**
- *
- * @author Koaja
- */
 public class Book {
 
     private String bookName;
@@ -18,7 +9,7 @@ public class Book {
     public Book(String bookName, String bookTitle, String bookGenre) {
         this.bookName = bookName;
         this.bookTitle = bookTitle;
-        this.bookGenre = bookGenre;
+        this.bookGenre = bookGenre.toUpperCase();
     }
 
     public Book() {

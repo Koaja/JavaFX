@@ -7,12 +7,15 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.stage.Popup;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -43,6 +46,8 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem menuItemExport;
     @FXML
     private MenuItem menuItemImport;
+    @FXML
+    private MenuItem menuItemAbout;
 
     // text areas
     @FXML
@@ -74,7 +79,7 @@ public class FXMLDocumentController implements Initializable {
 
             // delete book
         } else if (e.getSource() == btnDeleteBook) {
-            // TO DO
+            lblInfo.setText("Feature not yet implemented");
 
             // search book
         } else if (e.getSource() == btnSearchBook) {
@@ -97,9 +102,16 @@ public class FXMLDocumentController implements Initializable {
 
             // imports an existing library
         } else if (e.getSource() == menuItemImport) {
-            model.importLibrary(homeDir + "//Desktop//books.txt");
+            model.importLibrary(homeDir + "//Desktop//books.txt", lblInfo);
         } else if (e.getSource() == menuItemExport) {
             model.exportLibrary();
+        } else if (e.getSource() == menuItemAbout) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("About");
+            alert.setHeaderText(null);
+            alert.setContentText(model.getStageTitle() + "\nVersion: 1.0\nMade by: Koaja");
+
+            alert.showAndWait();
         }
     }
 

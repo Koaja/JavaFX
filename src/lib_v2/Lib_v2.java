@@ -6,10 +6,13 @@
 package lib_v2;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -17,13 +20,21 @@ import javafx.stage.Stage;
  */
 public class Lib_v2 extends Application {
     
+    private Model model;
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        stage.setTitle("Ratusca's Totally Awesome Library");
+        stage.setTitle(new Model().getStageTitle());
         stage.setResizable(false);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                System.out.println("dsadsa");
+            }
+        });
         stage.setScene(scene);
         stage.show();
     }
