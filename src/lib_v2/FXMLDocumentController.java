@@ -15,7 +15,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.stage.Popup;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -110,7 +109,6 @@ public class FXMLDocumentController implements Initializable {
             alert.setTitle("About");
             alert.setHeaderText(null);
             alert.setContentText(model.getStageTitle() + "\nVersion: 1.0\nMade by: Koaja");
-
             alert.showAndWait();
         }
     }
@@ -121,7 +119,7 @@ public class FXMLDocumentController implements Initializable {
         // checks for autor title and genre fields if they are have text
         BooleanBinding bb = new BooleanBinding() {
             {
-                super.bind(txtBookAuthor.textProperty(), txtBookTitle.textProperty(), txtBookGenre.textProperty());
+                bind(txtBookAuthor.textProperty(), txtBookTitle.textProperty(), txtBookGenre.textProperty());
             }
 
             @Override
