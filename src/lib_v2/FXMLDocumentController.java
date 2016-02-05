@@ -101,7 +101,7 @@ public class FXMLDocumentController implements Initializable {
 
             // imports an existing library
         } else if (e.getSource() == menuItemImport) {
-            model.importLibrary(homeDir + "//Desktop//books.txt", lblInfo);
+            model.importLibrary(homeDir + "//Desktop//books.txt");
         } else if (e.getSource() == menuItemExport) {
             model.exportLibrary();
         } else if (e.getSource() == menuItemAbout) {

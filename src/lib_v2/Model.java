@@ -31,7 +31,6 @@ public class Model {
 
     public void addBook(Book b) {
         booksCollection.add(b);
-
     }
 
     // add book method
@@ -49,16 +48,6 @@ public class Model {
             //add book to collection
             book = new Book(bookName, bookTitle, bookGenre);
             lblAddMessage.setText(book.toString() + " added to libray");
-//            booksCollection.addListener(new ListChangeListener<Book>() {
-//                @Override
-//                public void onChanged(ListChangeListener.Change<? extends Book> c) {
-//                    lblAddMessage.setTextFill(Color.BLACK);
-//                    if (c.next() == c.wasAdded()) {
-//                        lblAddMessage.setText(book.toString() + " added to libray");
-//                    }
-//                }
-//            });
-
             booksCollection.add(book);
 
             // clears the fields after adding a book
@@ -144,14 +133,12 @@ public class Model {
 
     // imports any existing library
     @SuppressWarnings("CallToPrintStackTrace")
-    public void importLibrary(String fileLocation, Label lblInfo) {
-
+    public void importLibrary(String fileLocation) {
+        booksCollection.clear();
         // location of file to be imported
         booksFile = new File(fileLocation);
-        boolean filePresent = true;
         // create a file if one doesnt exist
         if (!booksFile.exists()) {
-            filePresent = false;
             try {
                 booksFile.createNewFile();
             } catch (IOException e) {
@@ -177,11 +164,6 @@ public class Model {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        if (filePresent == true) {
-            lblInfo.setText("A number of " + getNumberOfBooksFromFile() + " books have been added to your library.");
-        } else {
-            lblInfo.setText("No local library was found, so we will create one for you instead. You can find it on your Desktop with name books.txt");
         }
 
     }
