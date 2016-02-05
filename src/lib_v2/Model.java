@@ -29,6 +29,7 @@ public class Model {
     private Stage stage;
     private String stageTitle = "Ratusca's Totally Awesome Books Library";
     private int nrOfBooksFromFile = 0;
+    private int bookIndex = 1;
 
     public void addBook(Book b) {
         booksCollection.add(b);
@@ -76,9 +77,8 @@ public class Model {
         return txtField.getText().isEmpty();
     }
 
-    public void listLibrary(TextArea txtBooksDisplay) {
+    public void listLibrary(TextArea txtBooksDisplay, Label lblInfo) {
         sortLibrary();
-        int bookIndex = 1;
         txtBooksDisplay.clear(); // clears the text area to display the updated list
         if (booksCollection.isEmpty()) {
             txtBooksDisplay.setText("No books");
@@ -89,6 +89,8 @@ public class Model {
                 bookIndex++;
             }
         }
+        lblInfo.setText("There are " + getNumberOfBooks() + " books in your library.");
+
     }
 
     public void searchLibrary(TextArea txtSearchDisplay, TextField txtSearch, Label lblInfo) {

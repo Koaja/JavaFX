@@ -86,7 +86,7 @@ public class FXMLDocumentController implements Initializable {
 
             // show available books 
         } else if (e.getSource() == btnShowBooks) {
-            model.listLibrary(txtBooksDisplay);
+            model.listLibrary(txtBooksDisplay, lblInfo);
 
             // quits program
         } else if (e.getSource() == menuItemExit) {
